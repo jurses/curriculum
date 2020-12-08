@@ -1,15 +1,30 @@
 package controladores;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 
+import modelos.CV; 
+
 public class MainController {
 
+	private ConocimientoController conocimiento_cont;
+	private ContactController contact_cont;
+	private ExperienciaController experiencia_cont;
+	private FormacionController fomacion_cont;
+	private PersonalController personal_cont;
+	
+	private SimpleObjectProperty<CV> cv;
+	
     @FXML
     private BorderPane view;
 
@@ -36,7 +51,25 @@ public class MainController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    	
+    	cv = new SimpleObjectProperty<>(new CV());
+    	
+    	conocimiento_cont = new ConocimientoController();
+		contact_cont = new ContactController();
+		experiencia_cont = new ExperienciaController();
+		fomacion_cont = new FormacionController();
+		personal_cont = new PersonalController();
+		
+		personalTab.setContent(personal_cont.getView());
+		personal_cont.setPersona(cv.getValue().getPersonal().getValue());
+		
+
 	}
+    
+    public Parent getView()
+    {
+    	return view;
+    }
 
     @FXML
     void onAbrirAction(ActionEvent event) {
@@ -66,6 +99,5 @@ public class MainController {
     @FXML
     void onSalirAction(ActionEvent event) {
 
-    }
-
+    }    
 }
